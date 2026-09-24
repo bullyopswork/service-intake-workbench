@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: workbench_test
+        ports:
+          - 55432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d workbench_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:55432/workbench_test
+      DEMO_SESSION_SECRET: ci-only-demo-session-secret-at-least-thirty-two-characters
+      PARTNER_WEBHOOK_SECRET: ci-only-partner-webhook-secret-at-least-thirty-two-characters
+      CRON_SECRET: ci-only-cleanup-secret-at-least-thirty-two-characters
+      RUN_LOCAL_CLEANUP_TEST: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run db:migrate
+      - name: Run API and PostgreSQL journey
+        run: |
+          npm run start -- -p 3006 > /tmp/workbench-next.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://localhost:3006/api/health > /dev/null; then break; fi
+            sleep 1
+          done
+          curl --silent --fail http://localhost:3006/api/health > /dev/null
+          node --import tsx scripts/integration.mts
