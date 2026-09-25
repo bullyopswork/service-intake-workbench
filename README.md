@@ -4,6 +4,10 @@ A small, **fictional-data** full-stack portfolio demo: a public service request 
 
 This is a fresh, separate codebase. No source, history, credentials, or client records were copied from a private project. It was built with AI assistance; repository ownership should not be mistaken for a claim that every line was personally handwritten by Eduardo Hernandez.
 
+## Live demo
+
+[Open the Service Intake Workbench](https://service-intake-workbench.vercel.app/) to submit a fictional request and review it in a temporary staff workspace. The hosted demo uses a dedicated Neon Free PostgreSQL project and Vercel Hobby deployment; it is not a real customer service system.
+
 ## Screenshots
 
 The captures below show the locally running, fictional-data demo. They are not claims of a hosted deployment.
