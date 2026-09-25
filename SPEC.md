@@ -1,6 +1,6 @@
 # Service Intake Workbench — public portfolio build
 
-Status: active local implementation. New, synthetic-only codebase; no source or history copied from private AI Revenue Frontdesk or a client project.
+Status: published synthetic portfolio demo. New codebase; no source, history, or data copied from a private or client project.
 
 ## Purpose
 
@@ -35,7 +35,3 @@ All JSON errors are `{ "error": { "code": string, "message": string } }`. Normal
 - Invalid inputs get structured 4xx responses. Replay with the same idempotency key returns the same request even under concurrent calls.
 - Demo reset, role entry, and all mutation paths use explicit server checks. No external messages or live AI/model calls in this phase.
 - Environment: `DATABASE_URL`, `DEMO_SESSION_SECRET`, `PARTNER_WEBHOOK_SECRET`. Keep values outside Git.
-
-## Score gates
-
-The target is ≥9/10 for role-relevant code quality, meaningful tests, security/privacy hygiene within the synthetic-demo scope, accessibility evidence, public presentation, full-stack evidence, and Consumr Buzz relevance. Each score needs reasons and live proof; do not inflate. Ed's personal coding contribution remains **unverified** until he personally implements/debugs and explains a slice.

@@ -46,8 +46,8 @@ assert.equal(invalid.status, 400);
 assert.equal((invalid.data.error as Json).code, "invalid_input");
 checks++;
 
-const realEmail = await call("/api/intake", "POST", { ...sample, email: "alex@personalmail.com" });
-assert.equal(realEmail.status, 400);
+const nonDemoEmail = await call("/api/intake", "POST", { ...sample, email: "alex@demo.localhost" });
+assert.equal(nonDemoEmail.status, 400);
 const oversized = await call("/api/intake", "POST", { ...sample, description: "x".repeat(20_000) });
 assert.equal(oversized.status, 413);
 const foreignOrigin = await call("/api/intake", "POST", sample, undefined, { origin: "https://outside.invalid" });
