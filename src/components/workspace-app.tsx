@@ -81,6 +81,16 @@ export default function WorkspaceApp() {
   const [detailError, setDetailError] = useState("");
   const [needsDemoAccess, setNeedsDemoAccess] = useState(false);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [mobileDetailOpen, setMobileDetailOpen] = useState(false);
+
+  function focusMobileRegion(id: string) {
+    if (!window.matchMedia("(max-width: 600px)").matches) return;
+    window.setTimeout(() => {
+      const region = document.getElementById(id);
+      region?.focus({ preventScroll: true });
+      region?.scrollIntoView({ behavior: "auto", block: "start" });
+    }, 0);
+  }
 
   const loadInbox = useCallback(async (quiet = false) => {
     try {
@@ -126,11 +136,19 @@ export default function WorkspaceApp() {
   }, [selectedId, detailRevision]);
 
   function chooseRequest(id: string) {
-    if (id === selectedId) return;
-    setSelectedId(id);
-    setSelected(null);
-    setDetailError("");
-    setDetailLoading(true);
+    if (id !== selectedId) {
+      setSelectedId(id);
+      setSelected(null);
+      setDetailError("");
+      setDetailLoading(true);
+    }
+    setMobileDetailOpen(true);
+    focusMobileRegion("request-detail");
+  }
+
+  function returnToInbox() {
+    setMobileDetailOpen(false);
+    focusMobileRegion("request-inbox");
   }
 
   const filteredRequests = useMemo(() => {
@@ -215,6 +233,7 @@ export default function WorkspaceApp() {
       setStatusFilter("all");
       setSourceFilter("all");
       setQuery("");
+      setMobileDetailOpen(false);
       setNotice("Workspace reset to the original fictional examples.");
       setSelected(null);
       await loadInbox();
@@ -231,7 +250,7 @@ export default function WorkspaceApp() {
   const duplicateReference = selected?.duplicateOf ? requests.find((request) => request.id === selected.duplicateOf)?.reference : null;
 
   return (
-    <main className="workspace-page">
+    <main className={`workspace-page${mobileDetailOpen ? " mobile-detail-open" : ""}`}>
       <header className="workspace-header">
         <div className="workspace-header-inner">
           <Brand />
@@ -281,7 +300,7 @@ export default function WorkspaceApp() {
         </section>
 
         <div className="workbench-grid">
-          <aside className="inbox-panel" id="request-inbox" aria-label="Request inbox">
+          <aside className="inbox-panel" id="request-inbox" aria-label="Request inbox" tabIndex={-1}>
             <div className="inbox-panel-header">
               <div><p className="eyebrow eyebrow-muted">THE QUEUE</p><h2>Inbox <span>{requests.length}</span></h2></div>
               <span className="inbox-refresh-mark" title="Updates saved to your demo workspace" aria-label="Demo workspace">●</span>
@@ -312,13 +331,15 @@ export default function WorkspaceApp() {
             <div className="inbox-footnote"><span className="status-dot" /> Changes save to this session&apos;s synthetic workspace.</div>
           </aside>
 
-          <section className="detail-panel" aria-label="Selected request details">
+          <section className="detail-panel" id="request-detail" aria-label="Selected request details" tabIndex={-1}>
+            <button className="mobile-back-inbox" type="button" onClick={returnToInbox}>← Back to inbox</button>
             {detailLoading ? <div className="detail-loading"><span className="detail-loader" /><strong>Opening request…</strong><span>Loading details and activity</span></div> : detailError ? (
               <div className="detail-empty"><span className="detail-empty-symbol" aria-hidden="true">!</span><h2>Details could not be loaded</h2><p>{detailError}</p><button className="button button-outline" type="button" onClick={() => { setDetailError(""); setDetailLoading(true); setDetailRevision((revision) => revision + 1); }} disabled={!selectedId}>Try again</button></div>
             ) : selected ? (
               <>
                 <div className="detail-topline"><span>REQUEST <i>/</i> {selected.reference}</span><span className="detail-date">Received {formatDate(selected.createdAt, true)}</span></div>
                 <div className="detail-title-row"><div><p className="eyebrow eyebrow-muted">{categoryLabel(selected.category)} <i>·</i> {sourceLabel(selected.source)}</p><h2>{selected.subject}</h2></div><StatusBadge status={selected.status} /></div>
+                <a className="detail-action-jump" href="#request-action">Go to next action <span aria-hidden="true">↓</span></a>
                 {selected.duplicateOf && <div className="duplicate-alert"><span className="duplicate-alert-icon" aria-hidden="true">↳</span><span><strong>Possible duplicate</strong><small>A related request was found. Review it before taking action; nothing was merged.</small></span>{duplicateReference && <button className="duplicate-ref" type="button" onClick={() => chooseRequest(selected.duplicateOf!)}>Review {duplicateReference} →</button>}</div>}
 
                 <div className="request-summary-grid">
@@ -329,7 +350,7 @@ export default function WorkspaceApp() {
 
                 <div className="request-description"><p className="summary-label">REQUEST DETAILS</p><p>{selected.description}</p></div>
 
-                <div className="action-card">
+                <div className="action-card" id="request-action">
                   <div className="action-card-heading"><span className="action-step-icon" aria-hidden="true">↗</span><span><strong>Keep the next step clear</strong><small>Updates are recorded in the activity trail below.</small></span></div>
                   <div className="assignment-row">
                     <label className="field compact-field"><span>Assign to</span><select value={assignee} onChange={(event) => setAssignee(event.target.value)}><option value="Maya Chen">Maya Chen</option><option value="Jordan Lee">Jordan Lee</option><option value="Avery Rivera">Avery Rivera</option></select></label>

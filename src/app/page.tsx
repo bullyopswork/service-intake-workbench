@@ -70,7 +70,7 @@ export default function Home() {
           <h1>Every request deserves <em>a good start.</em></h1>
           <p className="hero-description">A clear path from “we need a hand” to “all taken care of.” Explore a thoughtfully simple intake desk, made for the people keeping things moving.</p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#intake">Send a sample request <span aria-hidden="true">↘</span></a>
+            <a className="button button-primary" href="#request-form">Send a sample request <span aria-hidden="true">↘</span></a>
             <span className="hero-note"><span className="note-dot" /> Fictional data, real workflow</span>
           </div>
           <div className="hero-proof">
@@ -93,7 +93,7 @@ export default function Home() {
             <span className="step-number">02</span><span><strong>See it through</strong><small>Try the staff workspace</small></span>
           </div>
         </div>
-        <div className="intake-card">
+        <div className="intake-card" id="request-form">
           <div className="card-header">
             <div><p className="eyebrow eyebrow-muted">PUBLIC INTAKE</p><h3>New service request</h3></div>
             <span className="form-step">1 <i>/</i> 2</span>

@@ -261,6 +261,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .loading-rows span { height: 77px; border-bottom: 1px solid #edf0eb; background: linear-gradient(90deg, #f5f7f2, #fbfcf9 45%, #f5f7f2); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; }
 @keyframes shimmer { to { background-position: -200% 0; } }
 .detail-panel { min-height: 530px; padding: 21px 25px 7px; }
+.mobile-back-inbox { display: none; }
+.detail-action-jump { display: inline-flex; align-items: center; gap: 7px; margin: -5px 0 10px; color: #345a3e; font-size: 11px; font-weight: 700; text-underline-offset: 3px; }
+.action-card { scroll-margin-top: 20px; }
 .detail-topline { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: #526b5b; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
 .detail-topline i { padding-inline: 4px; color: #bdc5bd; font-style: normal; }
 .detail-date { color: #526b5b; font-size: 11px; font-weight: 500; letter-spacing: normal; }
@@ -379,6 +382,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .preview-stats span { font-size: 8px; }
   .intake-section { padding-block: 43px 49px; }
   .section-intro h2 { margin-top: 16px; font-size: 40px; }
+  .step-ribbon { display: none; }
+  .intake-card { scroll-margin-top: 14px; }
   .intake-card { padding: 22px 18px 19px; }
   .sample-prompt { align-items: flex-start; flex-direction: column; gap: 3px; }
   .sample-prompt button { padding-left: 0; text-align: left; }
@@ -424,6 +429,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .inbox-item-icon { width: 27px; height: 27px; }
   .inbox-item-status .status-badge { max-width: 88px; overflow: hidden; font-size: 10px; }
   .detail-panel { padding: 17px 14px 5px; }
+  .workspace-page:not(.mobile-detail-open) .detail-panel { display: none; }
+  .workspace-page.mobile-detail-open .workspace-intro, .workspace-page.mobile-detail-open .demo-banner, .workspace-page.mobile-detail-open .metric-strip, .workspace-page.mobile-detail-open .inbox-panel { display: none; }
+  .workspace-page.mobile-detail-open .workbench-grid { margin-top: 16px; }
+  .mobile-back-inbox { display: inline-flex; min-height: 44px; align-items: center; margin: -9px 0 8px; padding: 0; border: 0; color: #345a3e; background: transparent; font-size: 12px; font-weight: 700; }
   .detail-topline { align-items: flex-start; flex-direction: column; gap: 4px; }
   .detail-title-row { align-items: flex-start; gap: 10px; }
   .detail-title-row h2 { font-size: 24px; }
