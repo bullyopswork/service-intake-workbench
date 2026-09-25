@@ -249,6 +249,7 @@ export default function WorkspaceApp() {
             <p className="eyebrow"><span className="eyebrow-rule" /> YOUR SYNTHETIC WORKSPACE</p>
             <h1>Good work starts <em>with a clear view.</em></h1>
             <p>Review requests, give them an owner, and keep the next step visible.</p>
+            <a className="mobile-inbox-jump" href="#request-inbox">Go to the inbox <span aria-hidden="true">↓</span></a>
           </div>
           <div className="workspace-intro-actions">
             <button className="button button-outline" type="button" onClick={replayPartnerEvent} disabled={busyAction !== null}>
@@ -280,7 +281,7 @@ export default function WorkspaceApp() {
         </section>
 
         <div className="workbench-grid">
-          <aside className="inbox-panel" aria-label="Request inbox">
+          <aside className="inbox-panel" id="request-inbox" aria-label="Request inbox">
             <div className="inbox-panel-header">
               <div><p className="eyebrow eyebrow-muted">THE QUEUE</p><h2>Inbox <span>{requests.length}</span></h2></div>
               <span className="inbox-refresh-mark" title="Updates saved to your demo workspace" aria-label="Demo workspace">●</span>
