@@ -14,7 +14,7 @@ function SparkMark() {
 
 function QueuePreview() {
   return (
-    <div className="preview-shell" aria-label="Illustrative preview of the demo inbox">
+    <div className="preview-shell" aria-hidden="true">
       <div className="preview-topline">
         <span className="preview-window-dots" aria-hidden="true"><i /><i /><i /></span>
         <span>COMMONLINE / INBOX</span>
