@@ -1,8 +1,22 @@
 # Commonline Service Desk — Service Intake Workbench
 
+## In 30 seconds
+
+**Problem:** service requests need an owner, a next action and a reliable history. Repeated partner events should not create duplicate work.
+
+**Solution:** a Next.js and PostgreSQL application that moves a fictional request through intake, assignment, work and resolution, with signed partner ingestion and an activity trail.
+
+**Try it:** [open the hosted demo](https://service-intake-workbench.vercel.app/) with invented information only. Submit a request, enter the demo workspace, resolve it and replay the fixed partner event twice.
+
+**Proof:** [API and database integration checks](tests) cover validation, role and workspace boundaries, transitions, event history, signatures and concurrent replay. [CI](https://github.com/bullyopswork/service-intake-workbench/actions) runs against a temporary test database.
+
+**Engineering decision:** a PostgreSQL transaction advisory lock serializes a replay key, so concurrent copies resolve to one request. Status changes and event history commit together.
+
+**Project work:** interface, API, schema, guarded workflows and tests were developed with AI assistance. This is a separate fictional data codebase, not copied private source or customer records. The demo dispatcher role is intentionally public and is not production authentication.
+
 A small, **fictional-data** full-stack portfolio demo: a public service request becomes a PostgreSQL record, then moves through a staff inbox, assignment, work, resolution, and an activity trail. A signed partner webhook and a reviewer-friendly replay button demonstrate idempotent ingestion. Nothing sends messages to customers or connects to a real service business.
 
-This is a fresh, separate codebase. No source, history, credentials, or client records were copied from a private project. It was built with AI assistance; repository ownership should not be mistaken for a claim that every line was personally handwritten by Eduardo Hernandez.
+This is a fresh, separate codebase. No source, history, credentials, or client records were copied from a private project. It was built with AI assistance; repository ownership should not be mistaken for a claim that every line was personally handwritten by Ed Hernandez.
 
 ## Live demo
 
